@@ -3,6 +3,10 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
 const { authRouter } = require("./routes/auth");
+const { profileRouter } = require("./routes/profile");
+
+const verifyToken = require("./middlewares/verifyToken");
+
 const { connectDb } = require("./config/database");
 
 const app = express();
@@ -12,6 +16,14 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/profile", profileRouter);
+
+app.get("/", verifyToken, (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Welcome to the User Management API",
+  });
+});
 
 const startProcess = async () => {
   try {

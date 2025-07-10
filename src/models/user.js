@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const validator = require("validator");
+
+const { signJwt } = require("../utils");
 
 const userSchema = new mongoose.Schema(
   {
@@ -76,7 +77,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.generateJwtToken = function () {
-  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
+  return signJwt({ _id: this._id }, process.env.JWT_SECRET, {
     expiresIn: "1d",
   });
 };
