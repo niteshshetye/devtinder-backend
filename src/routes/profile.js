@@ -9,8 +9,8 @@ const router = express.Router();
 router.use(verifyToken);
 
 router
-  .get("/", profileController.getProfile)
-  .patch("/", profileController.updateProfile);
+  .get("/view", profileController.getProfile)
+  .patch("/edit", profileController.updateProfile);
 
 module.exports = {
   profileRouter: router,

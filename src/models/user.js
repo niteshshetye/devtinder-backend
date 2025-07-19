@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
     password: {
       type: String,
       required: [true, "Password is required"],

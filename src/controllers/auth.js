@@ -94,7 +94,19 @@ const login = async (req, res) => {
     .json({ data: loggedInUser, message: "Login Successful", success: true });
 };
 
+const logout = async (req, res) => {
+  res.cookie("session_token", null, {
+    expires: new Date(Date.now()), // Set cookie to expire immediately
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "User logged out successfully",
+  });
+};
+
 module.exports = {
   signup,
   login,
+  logout,
 };
