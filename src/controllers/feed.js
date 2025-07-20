@@ -1,4 +1,5 @@
 const ConnectionRequest = require("../models/connectionRequest");
+const User = require("../models/user");
 
 const SAFE_SELECTED_FIELDS = [
   "firstName",
@@ -12,11 +13,58 @@ const SAFE_SELECTED_FIELDS = [
 
 const getUserFeed = async (req, res) => {
   try {
+    /**
+     * i need to send user which are not connected to the logged in user
+     * and also not sent a request to the logged in user
+     * and also not received a request from the logged in user
+     *
+     *
+     */
+
+    const loggedInUserId = req.user._id;
+    let { page = 1, limit = 5 } = req.query;
+    limit = Math.min(50, parseInt(limit));
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const connectionRequests = await ConnectionRequest.find({
+      $or: [
+        { senderUserId: loggedInUserId },
+        { receiverUserId: loggedInUserId },
+      ],
+    }).select("senderUserId receiverUserId");
+
+    const hideUserIds = new Set();
+
+    connectionRequests.forEach((request) => {
+      hideUserIds.add(request.senderUserId.toString());
+      hideUserIds.add(request.receiverUserId.toString());
+    });
+
+    const users = await User.find({
+      $and: [
+        { _id: { $ne: loggedInUserId } },
+        { _id: { $nin: Array.from(hideUserIds) } },
+        { isDeleted: false },
+      ],
+    })
+      .skip(skip)
+      .limit(limit)
+      .select(SAFE_SELECTED_FIELDS);
+
+    const totaUsers = await User.countDocuments({
+      $and: [
+        { _id: { $ne: loggedInUserId } },
+        { _id: { $nin: Array.from(hideUserIds) } },
+        { isDeleted: false },
+      ],
+    });
+
     // Logic to fetch user feed goes here
     res.status(200).json({
       success: true,
       message: "User feed fetched successfully",
-      data: [], // Replace with actual feed data
+      totaUsers: totaUsers,
+      data: users,
     });
   } catch (error) {
     console.error("Error fetching user feed:", error);
