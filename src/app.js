@@ -3,6 +3,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
 const { authRouter } = require("./routes/auth");
+const { userFeedRoutes } = require("./routes/feed");
 const { profileRouter } = require("./routes/profile");
 const { requestRouter } = require("./routes/request");
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/profile", profileRouter);
 app.use("/api/v1/request", requestRouter);
+app.use("/api/v1/user/feed", userFeedRoutes);
 
 app.get("/", verifyToken, (req, res) => {
   res.status(200).json({

@@ -14,11 +14,11 @@
 3. PATCH /profile/password // pending
 4. PATCH /profile/verify-email // pending
 
-## User Requests api's
+## Feed Requests api's
 
-1. GET /user/feed
-2. GET /user/request/received
-3. GET /user/request/connection
+1. GET /feed
+2. GET /feed/request/received
+3. GET /feed/request/connection
 
 ## Connection Requests api's
 
