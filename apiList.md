@@ -22,7 +22,7 @@
 
 ## Connection Requests api's
 
-1. POST /request/send/interested/:userId
-2. POST /request/send/ignore/:userId
-3. POST /request/review/accepted/:requestId
-4. POST /request/review/rejected/:requestId
+1. POST /request/send/:status/:userId
+
+2. POST /request/review/accepted/:requestId
+3. POST /request/review/rejected/:requestId

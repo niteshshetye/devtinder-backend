@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 
 const { authRouter } = require("./routes/auth");
 const { profileRouter } = require("./routes/profile");
+const { requestRouter } = require("./routes/request");
 
 const verifyToken = require("./middlewares/verifyToken");
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/profile", profileRouter);
+app.use("/api/v1/request", requestRouter);
 
 app.get("/", verifyToken, (req, res) => {
   res.status(200).json({
