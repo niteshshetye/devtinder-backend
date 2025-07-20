@@ -13,10 +13,12 @@ const sendRequestValidate = async (req, res, next) => {
     });
   }
 
-  if (!["interested", "ignore"].includes(status)) {
+  const allowedStatuses = ["interested", "ignore"];
+
+  if (!allowedStatuses.includes(status)) {
     return res.status(400).json({
       success: false,
-      message: "Invalid status. Must be 'interested' or 'ignore'",
+      message: `Invalid status. Must be one of ${allowedStatuses.join(", ")}`,
     });
   }
 

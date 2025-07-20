@@ -15,9 +15,10 @@ router.post(
   requestController.sendConnectionRequest
 );
 
-router
-  .post("/review/accepted/:requestId", requestController.reviewAcceptedRequest)
-  .post("/review/rejected/:requestId", requestController.reviewRejectedRequest);
+router.post(
+  "/review/:status/:requestId",
+  requestController.reviewConnectionRequest
+);
 
 module.exports = {
   requestRouter: router,
