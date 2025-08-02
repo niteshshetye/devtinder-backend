@@ -56,10 +56,13 @@ const userSchema = new mongoose.Schema(
     },
     photoUrl: {
       type: String,
+      default:
+        "https://i.pinimg.com/474x/e6/e4/df/e6e4df26ba752161b9fc6a17321fa286.jpg",
     },
     bio: {
       type: String,
       maxLength: [500, "Bio cannot exceed 500 characters"],
+      default: "Write Something about yourself",
     },
     skills: {
       type: [String],

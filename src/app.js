@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const { authRouter } = require("./routes/auth");
 const { userFeedRoutes } = require("./routes/feed");
@@ -16,6 +17,12 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/profile", profileRouter);
