@@ -3,7 +3,7 @@ const { verifyJwt } = require("../utils");
 
 const verifyToken = async (req, res, next) => {
   const sessionToken = req.cookies.session_token;
-
+  
   if (!sessionToken) {
     return res.status(401).json({
       success: false,
@@ -13,7 +13,7 @@ const verifyToken = async (req, res, next) => {
 
   try {
     const decoded = verifyJwt(sessionToken, process.env.JWT_SECRET);
-
+	
     if (!decoded) {
       return res.status(401).json({
         success: false,

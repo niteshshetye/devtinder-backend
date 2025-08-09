@@ -16,7 +16,7 @@ const sendConnectionRequest = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Interested request sent successfully",
+      message: status === 'interested' ? "Request Send Successfully" : "Ignored successfully",
       data: connectionRequest,
     });
   } catch (error) {
