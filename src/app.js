@@ -19,15 +19,17 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   })
 );
 
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/profile", profileRouter);
-app.use("/api/v1/request", requestRouter);
-app.use("/api/v1/user/feed", userFeedRoutes);
+const BASE_PATH = process.env.NODE_ENV === "development" ? "/api/v1" : "/v1";
+
+app.use(`${BASE_PATH}/auth`, authRouter);
+app.use(`${BASE_PATH}/profile`, profileRouter);
+app.use(`${BASE_PATH}/request`, requestRouter);
+app.use(`${BASE_PATH}/user/feed`, userFeedRoutes);
 
 app.get("/", verifyToken, (req, res) => {
   res.status(200).json({
